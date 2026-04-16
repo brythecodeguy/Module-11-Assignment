@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 from uuid import UUID
 from datetime import datetime
 
@@ -19,11 +19,15 @@ class CalculationBase(BaseModel):
         description="Operation to perform",
         examples=["addition"]
     )
-    inputs: List[float] = Field(
+    a: float = Field(
         ...,
-        description="Numbers used in the calculation",
-        examples=[[8, 2, 1]],
-        min_length=2
+        description="First number used in the calculation",
+        examples=[8]
+    )
+    b: float = Field(
+        ...,
+        description="Second number used in the calculation",
+        examples=[2]
     )
 
     @field_validator("type", mode="before")
@@ -36,18 +40,9 @@ class CalculationBase(BaseModel):
             )
         return value.lower()
 
-    @field_validator("inputs", mode="before")
-    @classmethod
-    def validate_inputs_list(cls, value):
-        if not isinstance(value, list):
-            raise ValueError("Inputs must be provided as a list")
-        return value
-
     @model_validator(mode="after")
     def validate_inputs(self):
-        if len(self.inputs) < 2:
-            raise ValueError("A calculation requires at least two numbers")
-        if self.type == CalculationType.DIVISION and any(num == 0 for num in self.inputs[1:]):
+        if self.type == CalculationType.DIVISION and self.b == 0:
             raise ValueError("Division by zero is not allowed")
         return self
 
@@ -55,8 +50,8 @@ class CalculationBase(BaseModel):
         from_attributes=True,
         json_schema_extra={
             "examples": [
-                {"type": "addition", "inputs": [8, 2, 1]},
-                {"type": "division", "inputs": [20, 5]}
+                {"type": "addition", "a": 8, "b": 2},
+                {"type": "division", "a": 20, "b": 5}
             ]
         }
     )
@@ -73,7 +68,8 @@ class CalculationCreate(CalculationBase):
         json_schema_extra={
             "example": {
                 "type": "multiplication",
-                "inputs": [4, 3, 2],
+                "a": 4,
+                "b": 3,
                 "user_id": "123e4567-e89b-12d3-a456-426614174000"
             }
         }
@@ -81,30 +77,40 @@ class CalculationCreate(CalculationBase):
 
 
 class CalculationUpdate(BaseModel):
-    inputs: Optional[List[float]] = Field(
+    a: Optional[float] = Field(
         None,
-        description="Revised list of numbers for the calculation",
-        examples=[[12, 4]],
-        min_length=2
+        description="Updated first number",
+        examples=[12]
+    )
+    b: Optional[float] = Field(
+        None,
+        description="Updated second number",
+        examples=[4]
+    )
+    type: Optional[CalculationType] = Field(
+        None,
+        description="Updated calculation type",
+        examples=["addition"]
     )
 
     @model_validator(mode="after")
     def validate_inputs(self):
-        if self.inputs is not None and len(self.inputs) < 2:
-            raise ValueError("A calculation requires at least two numbers")
+        if self.type == CalculationType.DIVISION and self.b == 0:
+            raise ValueError("Division by zero is not allowed")
         return self
 
     model_config = ConfigDict(
         from_attributes=True,
         json_schema_extra={
             "example": {
-                "inputs": [12, 4]
+                "a": 12,
+                "b": 4
             }
         }
     )
 
 
-class CalculationResponse(CalculationBase):
+class CalculationRead(CalculationBase):
     id: UUID = Field(
         ...,
         description="Unique identifier for the calculation",
@@ -136,8 +142,9 @@ class CalculationResponse(CalculationBase):
                 "id": "123e4567-e89b-12d3-a456-426614174999",
                 "user_id": "123e4567-e89b-12d3-a456-426614174000",
                 "type": "multiplication",
-                "inputs": [4, 3, 2],
-                "result": 24.0,
+                "a": 4,
+                "b": 3,
+                "result": 12.0,
                 "created_at": "2025-01-01T00:00:00",
                 "updated_at": "2025-01-01T00:00:00"
             }
