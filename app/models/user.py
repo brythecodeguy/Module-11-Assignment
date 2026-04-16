@@ -4,6 +4,7 @@ from typing import Optional, Dict, Any
 
 from sqlalchemy import Column, String, DateTime, Boolean
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import ValidationError
@@ -30,6 +31,7 @@ class User(Base):
     last_login = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    calculations = relationship("Calculation", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User(name={self.first_name} {self.last_name}, email={self.email})>"
