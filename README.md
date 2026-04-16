@@ -1,20 +1,20 @@
-# Module 10
+# Module 11
 
 ## Module Overview
 
-This module builds a full FastAPI application with authentication, database integration, testing, and deployment. The goal was to understand how backend systems are developed, secured, tested, and deployed using modern tools like Docker and CI/CD pipelines.
+This module builds on the FastAPI application by adding a polymorphic calculation system with full testing coverage. The goal was to understand how object oriented design, database models, and testing all connect in a backend system.
 
 ---
 
 ## Docker Setup
 
-I started the application using:
+Start the application:
 
 ```bash
 docker compose up --build
 ```
 
-This will start:
+This starts:
 
 - FastAPI application  
 - PostgreSQL database  
@@ -24,19 +24,19 @@ This will start:
 
 ## Docker Hub Repository
 
- <https://hub.docker.com/r/bry633/module-10-assignment>
+<https://hub.docker.com/r/bry633/module-11-assignment>
 
 ---
 
 ## Access Application
 
-FastAPI:
-<http://localhost:8000>
+FastAPI:  
+<http://localhost:8000>  
 
-pgAdmin:
-<http://localhost:5050>
+pgAdmin:  
+<http://localhost:5050>  
 
-Login (based on docker-compose):
+Login:
 
 - Email: <admin@example.com>  
 - Password: admin  
@@ -44,8 +44,6 @@ Login (based on docker-compose):
 ---
 
 ## Database Connection
-
-Connect to PostgreSQL using:
 
 - Host: db  
 - Username: postgres  
@@ -56,120 +54,135 @@ Connect to PostgreSQL using:
 
 ## Authentication Features
 
-The application includes user authentication using JWT.
+JWT-based authentication is implemented.
 
 ### User Registration
 
-- Users can register with:
-  - first name  
-  - last name  
-  - email  
-  - username  
-  - password  
+Users register with:
 
-- Passwords are securely hashed using bcrypt.
+- first name  
+- last name  
+- email  
+- username  
+- password  
 
----
+Passwords are securely hashed using bcrypt.
 
 ### User Login
 
-- Users can log in with username or email  
-- A JWT token is generated upon successful authentication  
-- Token is used to access protected routes  
+- Login with username or email  
+- JWT token returned on success  
+- Token required for protected routes  
+
+---
+
+## Calculation System
+
+This module introduces a polymorphic calculation system using SQLAlchemy.
+
+### Supported Operations
+
+- Addition  
+- Subtraction  
+- Multiplication  
+- Division  
+
+### Key Features
+
+- Polymorphism using SQLAlchemy inheritance  
+- Factory pattern using `Calculation.create()`  
+- Dynamic creation of calculation types  
+- Input validation (at least two numbers required)  
+- Error handling (e.g., division by zero)  
+
+Example:
+
+```python
+calc = Calculation.create("addition", user_id, [1, 2, 3])
+result = calc.get_result()  # 6
+```
 
 ---
 
 ## API Operations
 
-### 1: Create User
+### Create User
 
-Handled through the registration logic in the application.
+- Handles user registration  
 
----
-
-### 2: Authenticate User
+### Authenticate User
 
 - Verifies credentials  
-- Updates last login timestamp  
+- Updates last login  
 - Returns JWT token  
 
----
+### Protected Routes
 
-### 3: Protected Access
+- Requires valid JWT  
+- Ensures user-specific access  
 
-- Uses dependency injection to verify user tokens  
-- Ensures only authenticated users can access certain routes  
+### Calculations
+
+- Create and compute calculations  
+- Results stored and linked to users  
 
 ---
 
 ## Testing
 
-Run tests using:
+Run tests:
 
 ```bash
 pytest -q
 ```
 
-Test coverage includes:
+Includes:
 
 - Unit tests  
 - Integration tests  
-- Schema validation tests  
+- Calculation factory tests  
+- Polymorphism tests  
+- Edge case handling  
 
 Results:
 
 - 100% test coverage  
-- All tests passed  
+- All tests passing  
 
 ---
 
 ## CI/CD Pipeline
 
-The project uses GitHub Actions for automation.
+GitHub Actions automates:
 
-### Pipeline Steps
-
-1: Run Tests  
-
-- Install dependencies  
-- Execute pytest  
-
-2: Security Scan  
-
-- Build Docker image  
-- Scan with Trivy for vulnerabilities  
-
-3: Deploy  
-
-- Log in to Docker Hub  
-- Build and push Docker image  
+1. Run Tests  
+2. Security Scan (Trivy)  
+3. Build and Push Docker Image  
 
 ---
 
 ## Docker Image
 
-The application is built and pushed to Docker Hub automatically through CI/CD.
+Includes:
 
-Image includes:
-
-- FastAPI application  
-- Updated secure dependencies  
-- PostgreSQL connection support  
+- FastAPI app  
+- Secure dependencies  
+- PostgreSQL integration  
 
 ---
 
 ## Security
 
-- Passwords are hashed using bcrypt  
-- JWT tokens used for authentication  
-- Dependencies updated to fix vulnerabilities  
-- Trivy scan ensures no high/critical issues  
+- Password hashing with bcrypt  
+- JWT authentication  
+- Dependency updates  
+- Trivy vulnerability scanning  
 
 ---
 
 ## Documentation
 
-- [Module10_Screenshots.pdf](./Module10_Screenshots.pdf) – Screenshots of successful execution of GitHub Actions and Docker Hub Repo with deployed application image
-- [Module10_Reflection.pdf](./Module10_Reflection.pdf) – Reflection on the assignment  
+- [Module11_Screenshots.pdf](./Module11_Screenshots.pdf) – GitHub Actions and Docker Hub Screenshots
+- [Module11_Reflection.pdf](./Module11_Reflection.pdf) – Reflection  
 
 ---
