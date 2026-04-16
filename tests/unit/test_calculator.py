@@ -32,23 +32,6 @@ Number = Union[int, float]
 def test_add(a: Number, b: Number, expected: Number) -> None:
     """
     Test the 'add' function with various combinations of integers and floats.
-
-    This parameterized test verifies that the 'add' function correctly adds two numbers,
-    whether they are positive, negative, integers, or floats. By using parameterization,
-    we can efficiently test multiple scenarios without redundant code.
-
-    Parameters:
-    - a (Number): The first number to add.
-    - b (Number): The second number to add.
-    - expected (Number): The expected result of the addition.
-
-    Steps:
-    1. Call the 'add' function with arguments 'a' and 'b'.
-    2. Assert that the result is equal to 'expected'.
-
-    Example:
-    >>> test_add(2, 3, 5)
-    >>> test_add(-2, -3, -5)
     """
     # Call the 'add' function with the provided arguments
     result = add(a, b)
@@ -81,23 +64,6 @@ def test_add(a: Number, b: Number, expected: Number) -> None:
 def test_subtract(a: Number, b: Number, expected: Number) -> None:
     """
     Test the 'subtract' function with various combinations of integers and floats.
-
-    This parameterized test verifies that the 'subtract' function correctly subtracts the
-    second number from the first, handling both positive and negative values, as well as
-    integers and floats. Parameterization allows for comprehensive testing of multiple cases.
-
-    Parameters:
-    - a (Number): The number from which to subtract.
-    - b (Number): The number to subtract.
-    - expected (Number): The expected result of the subtraction.
-
-    Steps:
-    1. Call the 'subtract' function with arguments 'a' and 'b'.
-    2. Assert that the result is equal to 'expected'.
-
-    Example:
-    >>> test_subtract(5, 3, 2)
-    >>> test_subtract(-5, -3, -2)
     """
     # Call the 'subtract' function with the provided arguments
     result = subtract(a, b)
@@ -130,23 +96,6 @@ def test_subtract(a: Number, b: Number, expected: Number) -> None:
 def test_multiply(a: Number, b: Number, expected: Number) -> None:
     """
     Test the 'multiply' function with various combinations of integers and floats.
-
-    This parameterized test verifies that the 'multiply' function correctly multiplies two numbers,
-    handling both positive and negative values, as well as integers and floats. Parameterization
-    enables efficient testing of multiple scenarios in a concise manner.
-
-    Parameters:
-    - a (Number): The first number to multiply.
-    - b (Number): The second number to multiply.
-    - expected (Number): The expected result of the multiplication.
-
-    Steps:
-    1. Call the 'multiply' function with arguments 'a' and 'b'.
-    2. Assert that the result is equal to 'expected'.
-
-    Example:
-    >>> test_multiply(2, 3, 6)
-    >>> test_multiply(-2, 3, -6)
     """
     # Call the 'multiply' function with the provided arguments
     result = multiply(a, b)
@@ -179,23 +128,6 @@ def test_multiply(a: Number, b: Number, expected: Number) -> None:
 def test_divide(a: Number, b: Number, expected: float) -> None:
     """
     Test the 'divide' function with various combinations of integers and floats.
-
-    This parameterized test verifies that the 'divide' function correctly divides the first
-    number by the second, handling both positive and negative values, as well as integers
-    and floats. Parameterization allows for efficient and comprehensive testing across multiple cases.
-
-    Parameters:
-    - a (Number): The dividend.
-    - b (Number): The divisor.
-    - expected (float): The expected result of the division.
-
-    Steps:
-    1. Call the 'divide' function with arguments 'a' and 'b'.
-    2. Assert that the result is equal to 'expected'.
-
-    Example:
-    >>> test_divide(6, 3, 2.0)
-    >>> test_divide(-6, 3, -2.0)
     """
     # Call the 'divide' function with the provided arguments
     result = divide(a, b)
@@ -211,18 +143,6 @@ def test_divide(a: Number, b: Number, expected: float) -> None:
 def test_divide_by_zero() -> None:
     """
     Test the 'divide' function with division by zero.
-
-    This negative test case verifies that attempting to divide by zero raises a ValueError
-    with the appropriate error message. It ensures that the application correctly handles
-    invalid operations and provides meaningful feedback to the user.
-
-    Steps:
-    1. Attempt to call the 'divide' function with arguments 6 and 0, which should raise a ValueError.
-    2. Use pytest's 'raises' context manager to catch the expected exception.
-    3. Assert that the error message contains "Cannot divide by zero!".
-
-    Example:
-    >>> test_divide_by_zero()
     """
     # Use pytest's context manager to check for a ValueError when dividing by zero
     with pytest.raises(ValueError) as excinfo:
